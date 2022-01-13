@@ -1,0 +1,33 @@
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+/ext-libs/*
+!/ext-libs/.gitkeep
+
+/build/
+!build/.gitkeep
+
+#Vs Code project files
+.vscode/*
+#Following can be shared if other people also work in vs code
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+# Eclipse project files
+/.settings/
+.project
+.cproject
