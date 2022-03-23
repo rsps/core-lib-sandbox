@@ -2,8 +2,6 @@ cmake_minimum_required (VERSION 3.16)
 
 # https://cliutils.gitlab.io/modern-cmake/modern-cmake.pdf
 
-#set (CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/ToolchainFile.txt)
-
 project (rsp-core-lib)
 
 set (LIB_VERSION_MAJOR 0)
@@ -13,13 +11,13 @@ set (LIB_VERSION_PATCH 0)
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file (
-    "${PROJECT_SOURCE_DIR}/version-def.h.in"
-    "${PROJECT_BINARY_DIR}/src/version-def.h"
-)
+  "${PROJECT_SOURCE_DIR}/version-def.h.in"
+  "${PROJECT_BINARY_DIR}/src/version-def.h"
+  )
 
-set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
-set (THREADS_PREFER_PTHREAD_FLAG TRUE)
-find_package(Threads REQUIRED)
+#set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
+#set (THREADS_PREFER_PTHREAD_FLAG TRUE)
+#find_package(Threads REQUIRED)
 
 set (CMAKE_CXX_STANDARD 20)
 
@@ -31,6 +29,7 @@ include(GNUInstallDirs)
 #message(STATUS "BinDir: ${CMAKE_CURRENT_BINARY_DIR}")
 
 add_library("rsp-core-lib" STATIC)
+add_subdirectory(src)
 
 # Define headers for this library. PUBLIC headers are used for
 # compiling the library, and will be added to consumers' build
@@ -43,9 +42,6 @@ target_include_directories(rsp-core-lib
         src
         ${CMAKE_CURRENT_BINARY_DIR}/src
 )
-add_compile_options(-Wall -Wextra -Wold-style-cast -pedantic -Werror)
-
-add_subdirectory(src)
 
 
 #--------------------------------------------------------
@@ -62,10 +58,9 @@ ExternalProject_Add(
     
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/ext-libs/doctest"
     GIT_REPOSITORY https://github.com/onqtam/doctest.git
-    GIT_TAG "2.4.6"
     TIMEOUT 10
 
-    UPDATE_COMMAND ${GIT_EXECUTABLE} checkout ${GIT_TAG}
+    UPDATE_COMMAND ${GIT_EXECUTABLE} pull
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -92,7 +87,7 @@ target_include_directories("rsp-core-lib-test"
 
 target_link_libraries ("rsp-core-lib-test"
     rsp-core-lib
-    Threads::Threads
+    #Threads::Threads
 )
 
 add_test("tests" "rsp-core-lib-test")
